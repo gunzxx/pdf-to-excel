@@ -236,16 +236,15 @@ def handleAddDoubleData(oldData:list, newData:list, month:str) -> list:
     structured = OrderedDict()
 
     # Helper untuk tambah data
-    def add_row_data(jenisParam, bulanParam, dataParam):
-        if jenisParam not in structured:
-            structured[jenisParam] = {}
-            # structured[jenisParam][''] = dataParam
-        if bulanParam not in structured[jenisParam]:
-            structured[jenisParam][bulanParam] = [0] * 18
+    def add_row_data(jenis, bulan, data):
+        if jenis not in structured:
+            structured[jenis] = {}
+            # structured[jenis][''] = data
+        if bulan not in structured[jenis]:
+            structured[jenis][bulan] = [0] * 18
         for i in range(18):
-            structured[jenisParam][bulanParam][i] += parseNumber(dataParam[i])
+            structured[jenis][bulan][i] += parseNumber(data[i])
 
-    # ubah oldData jadi structured
     i = 0
     while i < len(oldData):
         jenis = oldData[i][0]
@@ -256,7 +255,6 @@ def handleAddDoubleData(oldData:list, newData:list, month:str) -> list:
             add_row_data(jenis, bulan, data)
             i += 1
 
-    # ubah newData jadi structured
     for data in newData:
         jenis = data[0]
         base = data[2:]
@@ -269,7 +267,7 @@ def handleAddDoubleData(oldData:list, newData:list, month:str) -> list:
         headerTransaksi = [jenisTransaksi, ''] + [0] * 18
         for bulan in [data for data in structured[jenisTransaksi]]:
             for i in range(len(structured[jenisTransaksi][bulan])):
-                headerTransaksi[i+2] = parseNumber(headerTransaksi[i+2]) + parseNumber(structured[jenisTransaksi][bulan][i])
+                headerTransaksi[i+2] += structured[jenisTransaksi][bulan][i]
                 headerTransaksi[i+2] = toDefaultNumber(headerTransaksi[i+2])
         outputData.append(headerTransaksi)
 

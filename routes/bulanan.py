@@ -48,14 +48,14 @@ def bulanan_post():
     months = ['JANUARI', 'FEBRUARI', 'MARET', 'APRIL', 'MEI', 'JUNI', 'JULI', 'AGUSTUS', 'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DESEMBER', 'INTRAKOMPTABEL', 'EKSTRAKOMPTABEL']
 
 
+    tes = []
     for i in range(len(laporans)):
         if laporans[i]:
             with pdfplumber.open(laporans[i]) as pdf:
                 data1 = pdfToList(pages=pdf.pages)
                 finishData = handleAddData(oldData=finishData, inputList=data1, month=months[i])
+    # # return finishData
     
-    # return finishData
-    tes = []
     for i in range(len(atbDatas)):
         if atbDatas[i]:
             with pdfplumber.open(atbDatas[i]) as pdf:
@@ -68,8 +68,8 @@ def bulanan_post():
         if kdpDatas[i]:
             with pdfplumber.open(kdpDatas[i]) as pdf:
                 kdpData = kdpPdfToList(pages=pdf.pages)
-                # tes.append(kdpData)
                 finishData = handleAddDoubleData(oldData=finishData, newData=kdpData, month=months[i])
+                # tes.append(finishData)
     # return tes
     # return finishData
 
